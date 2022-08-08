@@ -51,5 +51,17 @@ namespace TreeFolderStructure.DataAccess.Data
         {
             throw new NotImplementedException();
         }
+
+        public FolderModel RemoveFolder(int folderId)
+        {
+            using (_folderContext)
+            {
+                var folderToRemove = _folderContext.Folder.SingleOrDefault(x => x.Id == folderId);
+                _folderContext.Remove(folderToRemove);
+                _folderContext.SaveChanges();
+
+                return folderToRemove;
+            }
+        }
     }
 }
