@@ -14,5 +14,6 @@ namespace TreeFolderStructure.DataAccess.Data
         FolderModel GetFolderById(int id);
         FolderModel MoveFolder(int folderId, int parentId);
         FolderModel RemoveFolder(int folderId);
+        FolderModel EditFolder(int folderId, string name);
     }
 }

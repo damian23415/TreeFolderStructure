@@ -52,7 +52,16 @@ namespace TreeFolderStructure.DataAccess.Data
 
         public FolderModel MoveFolder(int folderId, int parentId)
         {
-            throw new NotImplementedException();
+            using (_folderContext)
+            {
+                var folderToMove = _folderContext.Folder.SingleOrDefault(x => x.Id == folderId);
+                folderToMove.ParentId = parentId;
+
+                _folderContext.Update(folderToMove);
+                _folderContext.SaveChanges();
+
+                return folderToMove;
+            }
         }
 
         public FolderModel RemoveFolder(int folderId)
@@ -64,6 +73,21 @@ namespace TreeFolderStructure.DataAccess.Data
                 _folderContext.SaveChanges();
 
                 return folderToRemove;
+            }
+        }
+
+        public FolderModel EditFolder(int folderId, string name)
+        {
+            using (_folderContext)
+            {
+                var folderToEdit = _folderContext.Folder.SingleOrDefault(x => x.Id == folderId);
+
+                folderToEdit.Name = name;
+
+                _folderContext.Update(folderToEdit);
+                _folderContext.SaveChanges();
+
+                return folderToEdit;
             }
         }
     }

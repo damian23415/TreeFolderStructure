@@ -41,5 +41,18 @@ namespace TreeFolderStructure.Controllers
         {
             return await _mediator.Send(new GetFolderByIdQuery(folderId));
         }
+
+        [HttpPut]
+        public async Task<FolderModel> MoveFolder(int folderId, int parentId)
+        {
+            return await _mediator.Send(new MoveFolderCommand(folderId, parentId));
+        }
+
+        [HttpPut]
+        [Route("{folderId}/{name}")]
+        public async Task<FolderModel> EditFolder(int folderId, string name)
+        {
+            return await _mediator.Send(new EditFolderCommand(folderId, name));
+        }
     }
 }
