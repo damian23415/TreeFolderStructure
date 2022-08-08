@@ -34,5 +34,12 @@ namespace TreeFolderStructure.Controllers
         {
             return await _mediator.Send(new RemoveFolderCommand(folderId));
         }
+
+        [HttpGet]
+        [Route("{folderId}")]
+        public async Task<FolderModel> GetFolderById([FromRoute] int folderId)
+        {
+            return await _mediator.Send(new GetFolderByIdQuery(folderId));
+        }
     }
 }

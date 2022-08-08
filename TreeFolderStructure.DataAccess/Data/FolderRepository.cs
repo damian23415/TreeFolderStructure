@@ -42,9 +42,12 @@ namespace TreeFolderStructure.DataAccess.Data
             }
         }
 
-        public FolderModel GetFolderById(int id)
+        public FolderModel GetFolderById(int folderId)
         {
-            throw new NotImplementedException();
+            using (_folderContext)
+            { 
+                return _folderContext.Folder.SingleOrDefault(x => x.Id == folderId); 
+            }
         }
 
         public FolderModel MoveFolder(int folderId, int parentId)
