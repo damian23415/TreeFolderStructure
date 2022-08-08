@@ -22,10 +22,9 @@ namespace TreeFolderStructure.DataAccess.Handlers
 
         public Task<List<FolderModel>> Handle(GetAllFoldersQuery request, CancellationToken cancellationToken)
         {
-            TreeHelper helper = new TreeHelper();
             var folders = _folderRepository.GetAllFolders();
-            var family = helper.BuildTree(folders);
-            return Task.FromResult(folders);
+            var family = TreeHelper.BuildTree(folders);
+            return Task.FromResult(family);
         }
     }
 }

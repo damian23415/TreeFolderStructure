@@ -8,9 +8,9 @@ using TreeFolderStructure.DataAccess.Model;
 
 namespace TreeFolderStructure.DataAccess.Helper
 {
-    public class TreeHelper
+    public static class TreeHelper
     {
-        public void AddChildren(FolderModel parent, List<FolderModel> folders)
+        private static void AddChildren(FolderModel parent, List<FolderModel> folders)
         {
             var children = folders.Where(x => x.ParentId == parent.Id);
             parent.Children = children.ToList();
@@ -18,7 +18,7 @@ namespace TreeFolderStructure.DataAccess.Helper
                 AddChildren(child, folders);
         }
 
-        public List<FolderModel> BuildTree(List<FolderModel> folders)
+        public static List<FolderModel> BuildTree(List<FolderModel> folders)
         {
             List<FolderModel> parents = new List<FolderModel>();
 
