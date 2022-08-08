@@ -13,6 +13,7 @@ namespace TreeFolderStructure.DataAccess.Model
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
+        public virtual ICollection<FolderModel> Children { get; set; }
     }
 }

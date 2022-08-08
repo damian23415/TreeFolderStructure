@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeFolderStructure.DataAccess.DataAccess;
 
@@ -11,9 +12,10 @@ using TreeFolderStructure.DataAccess.DataAccess;
 namespace TreeFolderStructure.DataAccess.Migrations
 {
     [DbContext(typeof(FolderContext))]
-    partial class FolderContextModelSnapshot : ModelSnapshot
+    [Migration("20220808190113_AddChildren")]
+    partial class AddChildren
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
