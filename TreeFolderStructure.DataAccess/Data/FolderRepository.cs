@@ -55,10 +55,14 @@ namespace TreeFolderStructure.DataAccess.Data
             using (_folderContext)
             {
                 var folderToMove = _folderContext.Folder.SingleOrDefault(x => x.Id == folderId);
-                folderToMove.ParentId = parentId;
 
-                _folderContext.Update(folderToMove);
-                _folderContext.SaveChanges();
+                if (folderToMove != null)
+                {
+                    folderToMove.ParentId = parentId;
+
+                    _folderContext.Update(folderToMove);
+                    _folderContext.SaveChanges();
+                }
 
                 return folderToMove;
             }
@@ -69,8 +73,11 @@ namespace TreeFolderStructure.DataAccess.Data
             using (_folderContext)
             {
                 var folderToRemove = _folderContext.Folder.SingleOrDefault(x => x.Id == folderId);
-                _folderContext.Remove(folderToRemove);
-                _folderContext.SaveChanges();
+                if (folderToRemove != null)
+                {
+                    _folderContext.Remove(folderToRemove);
+                    _folderContext.SaveChanges();
+                }
 
                 return folderToRemove;
             }
@@ -82,10 +89,12 @@ namespace TreeFolderStructure.DataAccess.Data
             {
                 var folderToEdit = _folderContext.Folder.SingleOrDefault(x => x.Id == folderId);
 
-                folderToEdit.Name = name;
-
-                _folderContext.Update(folderToEdit);
-                _folderContext.SaveChanges();
+                if (folderToEdit != null)
+                {
+                    folderToEdit.Name = name;
+                    _folderContext.Update(folderToEdit);
+                    _folderContext.SaveChanges();
+                }
 
                 return folderToEdit;
             }
