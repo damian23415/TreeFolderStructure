@@ -25,6 +25,7 @@ namespace TreeFolderStructure.DataAccess.Data
                 {
                     Id = model.Id,
                     Name = model.Name,
+                    ParentId = model.ParentId
                 };
 
                 _folderContext.Folder.Add(folder);
