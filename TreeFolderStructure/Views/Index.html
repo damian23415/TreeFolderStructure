@@ -40,8 +40,9 @@
             </div>
         </ul>
         <button @click="deleteElement">Delete recently clicked folder</button> <br>
-        <span>Enter your folder name:</span><input type="text" v-model="folderName">
-        <button @click="addElement">Add recently added folder</button>
+        <span>Enter your folder name: </span><input type="text" v-model="folderName">
+        <button @click="addElement">Add folder to recently clicked folder</button><br>
+        <button @click="resetCurrentId">Reset current selected folder to Add Root Folder</button>
     </div>
 </body>
 
@@ -97,6 +98,9 @@
                   alert(response.data.id);
                   this.getAllFolders();
               })
+          },
+          resetCurrentId: function() {
+            this.currentId = 0;
           },
           getAllFolders: function() {
             axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {
