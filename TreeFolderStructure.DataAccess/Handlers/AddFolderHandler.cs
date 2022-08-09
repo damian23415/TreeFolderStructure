@@ -20,7 +20,7 @@ namespace TreeFolderStructure.DataAccess.Handlers
         }
         public Task<FolderModel> Handle(AddFolderCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_folderRepository.AddFolder(request.model));
+            return Task.FromResult(_folderRepository.AddFolder(request.name, request.parentId));
         }
     }
 }

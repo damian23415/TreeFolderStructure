@@ -1,0 +1,9 @@
+button {
+    width: fit-content;
+    height: 30px;
+    text-align: center;
+}
+
+.item {
+    cursor: pointer;
+}

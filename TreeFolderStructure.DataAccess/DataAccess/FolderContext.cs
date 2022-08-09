@@ -23,7 +23,7 @@ namespace TreeFolderStructure.DataAccess.DataAccess
                 new FolderModel{ Id = 21, Name = "Dokumenty", ParentId = 20},
                 new FolderModel{ Id = 22, Name = "Wideo", ParentId = 20},
                 new FolderModel{ Id = 23, Name = "Obrazki", ParentId = 20},
-                new FolderModel{ Id = 24, Name = "Moje zdjęcia", ParentId=23}
+                new FolderModel{ Id = 24, Name = "Moje zdjęcia", ParentId = 23}
             });
         }
 

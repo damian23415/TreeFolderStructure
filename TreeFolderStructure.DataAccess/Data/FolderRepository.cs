@@ -17,15 +17,15 @@ namespace TreeFolderStructure.DataAccess.Data
         {
             _folderContext = folderContext;
         }
-        public FolderModel AddFolder(FolderModel model)
+        public FolderModel AddFolder(string name, int parentId)
         {
             using (_folderContext)
             {
                 var folder = new FolderModel()
                 {
-                    Id = model.Id,
-                    Name = model.Name,
-                    ParentId = model.ParentId
+                    Name = name,
+                    ParentId = parentId,
+                    Children = new List<FolderModel>()
                 };
 
                 _folderContext.Folder.Add(folder);

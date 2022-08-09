@@ -10,7 +10,7 @@ namespace TreeFolderStructure.DataAccess.Data
     public interface IFolderRepository
     {
         List<FolderModel> GetAllFolders();
-        FolderModel AddFolder(FolderModel folder);
+        FolderModel AddFolder(string name, int parentId);
         FolderModel GetFolderById(int id);
         FolderModel MoveFolder(int folderId, int parentId);
         FolderModel RemoveFolder(int folderId);

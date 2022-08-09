@@ -8,5 +8,5 @@ using TreeFolderStructure.DataAccess.Model;
 
 namespace TreeFolderStructure.DataAccess.Commands
 {
-    public record AddFolderCommand(FolderModel model) : IRequest<FolderModel>;
+    public record AddFolderCommand(string name, int parentId) : IRequest<FolderModel>;
 }

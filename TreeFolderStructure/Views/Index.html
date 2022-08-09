@@ -4,7 +4,8 @@
     <script src="https://unpkg.com/vue@2"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Struktura drzewiasta</title>
+    <link rel="stylesheet" href="style.css">
 
     <script type="text/x-template" id="item-template">
         <li>
@@ -22,7 +23,6 @@
               :item="child"
               @get-current-id="$emit('get-current-id', $event)"
             ></tree-item>
-            <li class="add" @click="$emit('add-item', item)">+</li>
           </ul>
         </li>
     </script>
@@ -39,24 +39,11 @@
             ></tree-item>
             </div>
         </ul>
-        <button class="delete" @click="deleteElement">Delete recently clicked folder</button>
+        <button @click="deleteElement">Delete recently clicked folder</button> <br>
+        <span>Enter your folder name:</span><input type="text" v-model="folderName">
+        <button @click="addElement">Add recently added folder</button>
     </div>
 </body>
-
-<style>
-    button.delete {
-        width: fit-content;
-        height: 30px;
-        text-align: center;
-    }
-
-    .item {
-        cursor: pointer;
-    }
-
-
-</style>
-
 
 <script>
     Vue.component("tree-item", {
@@ -90,18 +77,26 @@
         el: "#demo",
         data: {
           folderTree: null,
-          currentId: 0
+          currentId: 0,
+          folderName: null
         },
         methods: {
           getCurrentId: function(item) {
-            currentId = item.id;
-            console.log(currentId)
+            this.currentId = item.id;
+            console.log(this.currentId)
           },
           deleteElement: function() {
-            axios.delete('http://localhost:5003/api/Folder/DeleteFolder/' + currentId).then(response => {
+            axios.delete('http://localhost:5003/api/Folder/DeleteFolder/' + this.currentId).then(response => {
                 alert("Usunąłeś element!!!!!!");
                 this.getAllFolders();
             })
+          },
+          addElement: function() {
+              console.log(this.folderName)
+              axios.post('http://localhost:5003/api/Folder/AddFolder?name=' + this.folderName + "&parentId=" + this.currentId).then(response => {
+                  alert(response.data.id);
+                  this.getAllFolders();
+              })
           },
           getAllFolders: function() {
             axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {

@@ -23,9 +23,9 @@ namespace TreeFolderStructure.Controllers
         }
 
         [HttpPost]
-        public async Task<FolderModel> AddFolder([FromBody] FolderModel folder)
+        public async Task<FolderModel> AddFolder([FromQuery] string name, int parentId)
         {
-            return await _mediator.Send(new AddFolderCommand(folder));
+            return await _mediator.Send(new AddFolderCommand(name, parentId));
         }
 
         [HttpDelete]
