@@ -24,7 +24,7 @@ namespace TreeFolderStructure.DataAccess.Data
                 var folder = new FolderModel()
                 {
                     Name = name,
-                    ParentId = parentId,
+                    ParentId = parentId != 0 ? parentId : null,
                     Children = new List<FolderModel>()
                 };
 

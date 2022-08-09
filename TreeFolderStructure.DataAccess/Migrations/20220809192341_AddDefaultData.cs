@@ -17,25 +17,25 @@ namespace TreeFolderStructure.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Folder",
                 columns: new[] { "Name", "ParentId" },
-                values: new object[] { "Dokumenty", 20 }
+                values: new object[] { "Dokumenty", 1 }
                 );
 
             migrationBuilder.InsertData(
                 table: "Folder",
                 columns: new[] { "Name", "ParentId" },
-                values: new object[] { "Wideo", 20 }
+                values: new object[] { "Wideo", 1 }
                 );
 
             migrationBuilder.InsertData(
                 table: "Folder",
                 columns: new[] { "Name", "ParentId" },
-                values: new object[] {"Obrazki", 20 }
+                values: new object[] {"Obrazki", 1 }
                 );
 
             migrationBuilder.InsertData(
                 table: "Folder",
                 columns: new[] { "Name", "ParentId" },
-                values: new object[] { "Moje zdjęcia", 23 }
+                values: new object[] { "Moje zdjęcia", 3 }
                 );
         }
 
