@@ -1,33 +1,120 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <meta charset="utf-8" />
     <title></title>
+
+    <script type="text/x-template" id="item-template">
+        <li>
+          <div
+            @click="$emit('get-current-id', item)">
+            {{ item.name }}
+            <span @click="toggle" v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
+          </div>
+          
+          <ul v-show="isOpen" v-if="isFolder">
+            <tree-item
+              class="item"
+              v-for="(child, index) in item.children"
+              :key="index"
+              :item="child"
+              @get-current-id="$emit('get-current-id', $event)"
+            ></tree-item>
+            <li class="add" @click="$emit('add-item', item)">+</li>
+          </ul>
+        </li>
+    </script>
 </head>
+
 <body>
-    <div id="app">
-        {{ info }}
-        
+    <div id="demo">
+        <ul>
+            <div v-for="item in folderTree">
+            <tree-item
+            class="item"
+            :item="item"
+            @get-current-id="getCurrentId"
+            ></tree-item>
+            </div>
+        </ul>
+        <button class="delete" @click="deleteElement">Delete recently clicked folder</button>
     </div>
 </body>
-<script src="https://unpkg.com/vue@3"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-    const { createApp } = Vue;
 
-    createApp({
-        data() {
-            return {
-                info: null
+<style>
+    button.delete {
+        width: fit-content;
+        height: 30px;
+        text-align: center;
+    }
+
+    .item {
+        cursor: pointer;
+    }
+
+
+</style>
+
+
+<script>
+    Vue.component("tree-item", {
+        template: "#item-template",
+        props: {
+        item: Object
+        },
+        data: function() {
+        return {
+            isOpen: false
+        };
+        },
+        computed: {
+        isFolder: function() {
+            return this.item.children && this.item.children.length;
+        }
+        },
+        methods: {
+        toggle: function() {
+            if (this.isFolder) {
+            this.isOpen = !this.isOpen;
             }
+        },
+        getCurrentId: function() {
+            this.$emit("get-current-id", this.item)
+        }
+        }
+    });
+
+    var demo = new Vue({
+        el: "#demo",
+        data: {
+          folderTree: null,
+          currentId: 0
+        },
+        methods: {
+          getCurrentId: function(item) {
+            currentId = item.id;
+            console.log(currentId)
+          },
+          deleteElement: function() {
+            axios.delete('http://localhost:5003/api/Folder/DeleteFolder/' + currentId).then(response => {
+                alert("Usunąłeś element!!!!!!");
+                this.getAllFolders();
+            })
+          },
+          getAllFolders: function() {
+            axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {
+                this.folderTree = JSON.parse(JSON.stringify(response.data))
+            })
+          }
         },
         mounted() {
             axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {
-                this.info = response.data
+                this.folderTree = JSON.parse(JSON.stringify(response.data))
             })
         }
-    }).mount('#app')
-
+      });
+      console.log(demo);
 </script>
 </html>
