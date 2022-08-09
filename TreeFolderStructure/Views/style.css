@@ -1,9 +1,80 @@
 button {
-    width: fit-content;
-    height: 30px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: white;
+    border: 1px solid;
+    color: #4CAF50;
+    padding: 14px 31px;
+}
+
+button.delete {
+    background-color: red;
+}
+
+button.delete:hover {
+    background-color: white;
+    border: 1px solid;
+    color: red;
+    padding: 14px 31px;
 }
 
 .item {
     cursor: pointer;
+}
+
+.list {
+    text-decoration: none;
+    list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    padding-left: 1rem;
+}
+
+.item-data {
+    background-color: aqua;
+    padding: 0.4rem 1.25rem;
+    border-radius: 1rem;
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+.item-data.selected {
+    background-color: burlywood;
+}
+
+.item-data:hover {
+    background-color: aquamarine;
+}
+
+.expand-collapse-sign {
+    font-weight: 600;
+    margin-left: .25rem;
+}
+
+.text {
+    font-size: 20px;
+}
+
+input {
+    width: 350px;
+    height: 30px;
+    font-size: 24px;
+    border: 0;
+    border-bottom: 1px solid black;
 }

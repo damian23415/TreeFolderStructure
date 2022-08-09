@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <script src="https://unpkg.com/vue@2"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -9,10 +10,17 @@
 
     <script type="text/x-template" id="item-template">
         <li>
-          <div
-            @click="$emit('get-current-id', item)">
+          <div class="item-data"
+            @click="$emit('get-current-id', item); toggle();">
             {{ item.name }}
-            <span @click="toggle" v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
+            <span v-if="isFolder">
+                <span v-if="isOpen" class="expand-collapse-sign">
+                    -
+                </span>
+                <span v-else class="expand-collapse-sign">
+                    +
+                </span>
+            </span>
           </div>
           
           <ul v-show="isOpen" v-if="isFolder">
@@ -29,20 +37,18 @@
 </head>
 
 <body>
-    <div id="demo">
-        <ul>
+    <div id="wrapper">
+        <ul class="list">
             <div v-for="item in folderTree">
-            <tree-item
-            class="item"
-            :item="item"
-            @get-current-id="getCurrentId"
-            ></tree-item>
+                <tree-item class="item" :item="item" @get-current-id="getCurrentId"></tree-item>
             </div>
         </ul>
-        <button @click="deleteElement">Delete recently clicked folder</button> <br>
-        <span>Enter your folder name: </span><input type="text" v-model="folderName">
-        <button @click="addElement">Add folder to recently clicked folder</button><br>
-        <button @click="resetCurrentId">Reset current selected folder to Add Root Folder</button>
+        <span class="text">Enter your folder name: </span>
+        <input type="text" v-model="folderName"> <br>
+        <button @click="addElement">Add folder to currently clicked folder</button><br>
+        <button @click="deleteElement" class="delete">Delete currently clicked folder</button> <br>
+        <button @click="resetCurrentId">Reset current selected folder</button><br>
+        <button @click="editElement">Edit name of currently selected folder</button>
     </div>
 </body>
 
@@ -50,70 +56,77 @@
     Vue.component("tree-item", {
         template: "#item-template",
         props: {
-        item: Object
+            item: Object
         },
-        data: function() {
-        return {
-            isOpen: false
-        };
+        data: function () {
+            return {
+                isOpen: false
+            };
         },
         computed: {
-        isFolder: function() {
-            return this.item.children && this.item.children.length;
-        }
-        },
-        methods: {
-        toggle: function() {
-            if (this.isFolder) {
-            this.isOpen = !this.isOpen;
+            isFolder: function () {
+                return this.item.children && this.item.children.length;
             }
         },
-        getCurrentId: function() {
-            this.$emit("get-current-id", this.item)
-        }
+        methods: {
+            toggle: function () {
+                if (this.isFolder) {
+                    this.isOpen = !this.isOpen;
+                }
+            },
+            getCurrentId: function () {
+                this.$emit("get-current-id", this.item)
+            }
         }
     });
 
-    var demo = new Vue({
-        el: "#demo",
+    var wrapper = new Vue({
+        el: "#wrapper",
         data: {
-          folderTree: null,
-          currentId: 0,
-          folderName: null
+            folderTree: null,
+            currentId: 0,
+            folderName: null
         },
         methods: {
-          getCurrentId: function(item) {
-            this.currentId = item.id;
-            console.log(this.currentId)
-          },
-          deleteElement: function() {
-            axios.delete('http://localhost:5003/api/Folder/DeleteFolder/' + this.currentId).then(response => {
-                alert("Usunąłeś element!!!!!!");
-                this.getAllFolders();
-            })
-          },
-          addElement: function() {
-              console.log(this.folderName)
-              axios.post('http://localhost:5003/api/Folder/AddFolder?name=' + this.folderName + "&parentId=" + this.currentId).then(response => {
-                  alert(response.data.id);
-                  this.getAllFolders();
-              })
-          },
-          resetCurrentId: function() {
-            this.currentId = 0;
-          },
-          getAllFolders: function() {
-            axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {
-                this.folderTree = JSON.parse(JSON.stringify(response.data))
-            })
-          }
+            getCurrentId: function (item) {
+                this.currentId = item.id;
+            },
+            deleteElement: function () {
+                axios.delete('http://localhost:5003/api/Folder/DeleteFolder/' + this.currentId).then(response => {
+                    alert("Usunąłeś element!!!!!!");
+                    this.resetCurrentId();
+                    this.getAllFolders();
+                })
+            },
+            addElement: function () {
+                axios.post('http://localhost:5003/api/Folder/AddFolder?name=' + this.folderName + "&parentId=" + this.currentId).then(response => {
+                    alert(response.data.id);
+                    this.resetCurrentId();
+                    this.getAllFolders();
+                })
+            },
+            editElement: function () {
+                axios.put('http://localhost:5003/api/Folder/EditFolder?folderId=' + this.currentId + "&name=" + this.folderName).then(response => {
+                    alert("Edytowałeś element");
+                    this.resetCurrentId();
+                    this.getAllFolders();
+                })
+            },
+            resetCurrentId: function () {
+                this.currentId = 0;
+            },
+            getAllFolders: function () {
+                axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {
+                    this.folderTree = JSON.parse(JSON.stringify(response.data))
+                })
+            }
         },
         mounted() {
             axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {
                 this.folderTree = JSON.parse(JSON.stringify(response.data))
             })
         }
-      });
-      console.log(demo);
+    });
 </script>
+
 </html>
