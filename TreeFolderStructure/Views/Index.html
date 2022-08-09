@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="app">
+        {{ info }}
+        
+    </div>
+</body>
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                info: null
+            }
+        },
+        mounted() {
+            axios.get('http://localhost:5003/api/Folder/GetAllFolders').then(response => {
+                this.info = response.data
+            })
+        }
+    }).mount('#app')
+
+</script>
+</html>
