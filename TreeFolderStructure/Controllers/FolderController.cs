@@ -49,8 +49,7 @@ namespace TreeFolderStructure.Controllers
         }
 
         [HttpPut]
-        [Route("{folderId}/{name}")]
-        public async Task<FolderModel> EditFolder(int folderId, string name)
+        public async Task<FolderModel> EditFolder([FromQuery] int folderId, string name)
         {
             return await _mediator.Send(new EditFolderCommand(folderId, name));
         }
